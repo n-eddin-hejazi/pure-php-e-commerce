@@ -50,6 +50,13 @@ if(!function_exists('main_url'))
      }
 }
 
+if(!function_exists('admin_url'))
+{
+     function admin_url()
+     {
+          return env('APP_URL') . "/" . env('MAIN_URL') . "/admin";
+     }
+}
 
 if(!function_exists('session'))
 {
