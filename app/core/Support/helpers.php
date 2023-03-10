@@ -123,24 +123,24 @@ if (!function_exists('auth')) {
      function auth()
      {
           if (session()->has('loggedin') && session()->get('loggedin') === TRUE && session()->has('id')) {
-                    $user = QueryBuilder::get('users', 'id', '=', session()->get('id'));
-                    $auth = [
-                         'id' => session()->get('id'),
-                         'name' => $user->name,
-                         'username' => $user->username,
-                         'email' => $user->email,
-                         'last_login' => $user->last_login,
-                         'created_at' => $user->created_at,
-                         'updated_at' => $user->updated_at,
-                    ];
+               $user = QueryBuilder::get('users', 'id', '=', session()->get('id'));
+               $auth = [
+                    'id' => session()->get('id'),
+                    'name' => $user->name,
+                    'username' => $user->username,
+                    'email' => $user->email,
+                    'last_login' => $user->last_login,
+                    'created_at' => $user->created_at,
+                    'updated_at' => $user->updated_at,
+               ];
 
-                    return (object)$auth;
-               }
-               return null;
+               return (object)$auth;
           }
           return null;
      }
+     
 }
+
 
 
 
