@@ -7,3 +7,4 @@ use App\Controllers\Admin\ProfileController;
     Route::get('admin', [AdminHomeController::class, 'index']);
 
     Route::get('admin/profile', [ProfileController::class, 'show']);
+    Route::post('admin/profile/edit', [ProfileController::class, 'edit']);
