@@ -6,7 +6,8 @@
             </div>
             <div class="flex items-center">
                 <div class="flex items-center ml-3">
-                    <a href="<?= main_url() ?>/logout" class="tracking-wider text-sm text-gray-500">Logout</a>
+                    <a href="<?= admin_url() ?>/profile/" class="mx-1 tracking-wider text-sm text-gray-500">Profile</a>
+                    <a href="<?= main_url() ?>/logout" class="mx-1 tracking-wider text-sm text-gray-500">Logout</a>
                 </div>
             </div>
         </div>
