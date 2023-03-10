@@ -24,6 +24,16 @@ include view_path() . 'layouts/header.view.php';
                </div>
 
                <div>
+                    <label for="username" class="sr-only">Username</label>
+                    <input id="username" name="username" type="text" autocomplete="username" value="<?= old('username') ?>" class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Username">
+                    <?php if (session()->hasFlash('username_errors')): ?>
+                         <p class="text-xs text-red-500">
+                              <?= session()->getFlash('username_errors')[0]; ?>
+                         </p>
+                    <?php endif; ?>
+               </div>
+
+               <div>
                     <label for="email" class="sr-only">Email</label>
                     <input id="email" name="email" type="text" autocomplete="email" value="<?= old('email') ?>" class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email">
                     <?php if (session()->hasFlash('email_errors')): ?>

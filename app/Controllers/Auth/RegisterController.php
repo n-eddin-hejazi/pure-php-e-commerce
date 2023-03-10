@@ -6,6 +6,7 @@ use App\Core\Support\ReCaptcha;
 class RegisterController
 {
      private string $name;
+     private string $username;
      private string $email;
      private string $password;
      private string $password_confirmation;
@@ -19,10 +20,11 @@ class RegisterController
      public function store()
      {
           if($_SERVER['REQUEST_METHOD'] === 'POST'){
-               if(isset($_POST['name'], $_POST['email'], $_POST['password'], $_POST['password_confirmation'], $_POST['re_captcha'])){
+               if(isset($_POST['name'], $_POST['email'], $_POST['username'], $_POST['password'], $_POST['password_confirmation'], $_POST['re_captcha'])){
                     $this->checkReCaptchaV3();
                     // assign preperties
-                    $this->name = htmlspecialchars(strip_tags($_POST['name'])) ;
+                    $this->name = htmlspecialchars(strip_tags($_POST['name']));
+                    $this->username = htmlspecialchars(strip_tags($_POST['username']));
                     $this->email = htmlspecialchars(strip_tags($_POST['email']));
                     $this->password = $_POST['password'];
                     $this->password_confirm = $_POST['password_confirmation'];
@@ -53,6 +55,12 @@ class RegisterController
                session()->setFlash('name_errors', $name_errors);
           }
 
+          $username_errors = $this->usernameValidation();
+          if(!empty($username_errors)){
+               session()->setFlash('username_errors', $username_errors);
+          }
+
+
           $email_errors = $this->emailValidation();
           if(!empty($email_errors)){
                session()->setFlash('email_errors', $email_errors);
@@ -63,8 +71,9 @@ class RegisterController
                session()->setFlash('password_errors', $password_errors);
           }
 
-          if(!empty($name_errors) || !empty($email_errors) || !empty($password_errors)){
+          if(!empty($name_errors) || !empty($username_errors) || !empty($email_errors) || !empty($password_errors)){
                session()->setFlash('name', $this->name);
+               session()->setFlash('username', $this->username);
                session()->setFlash('email', $this->email);
                return back();
           }
@@ -91,6 +100,32 @@ class RegisterController
           }
 
           return $name_errors;
+     }
+
+     private function usernameValidation()
+     {
+          $username_errors = [];
+          // username validation - check the username is empty
+          if(empty($this->username)){
+               $username_errors[] = "The username field is required.";
+          }
+
+          // username validation
+          if(strlen($this->username) < 3){
+               $username_errors[] = "The length of username field shloud be grater than or equal to 3 characters.";
+          }
+
+          // username validation
+          if(strlen($this->username) > 32){
+               $username_errors[] = 'The length of username field shloud be less than or equal to 32 characters.';
+          }
+
+          // username validation - check the username if exist
+          if(QueryBuilder::get('users', 'username', '=', $this->username)){
+               $username_errors[] = "Username is alerady taken, please pick up another one.";
+          }
+          
+          return $username_errors;
      }
 
      private function emailValidation()
@@ -145,8 +180,9 @@ class RegisterController
      {
           $data = [
                'name' => $this->name,
-               'password' => password_hash($this->password, PASSWORD_DEFAULT),
+               'username' => $this->username,
                'email' => $this->email,
+               'password' => password_hash($this->password, PASSWORD_DEFAULT),
           ];
 
           try{
