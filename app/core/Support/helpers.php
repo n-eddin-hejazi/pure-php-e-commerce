@@ -92,24 +92,22 @@ if (!function_exists('old')) {
      }
 }
 
-if (!function_exists('ifAuth')) {
-     function ifAuth()
+if (!function_exists('if_authenticated')) {
+     function if_authenticated()
      {
           if (session()->has('loggedin') && session()->get('loggedin') === TRUE) {
-               if (session()->has('id') && session()->has('name') && session()->has('email')) {
+               if (session()->has('id') && session()->has('name') && session()->has('username') && session()->has('email')) {
                     return to('admin');
                }
           }
      }
 }
 
-if (!function_exists('ifNotAuth')) {
-     function ifNotAuth()
+if (!function_exists('if_not_authenticated')) {
+     function if_not_authenticated()
      {
           if (!session()->has('loggedin') && session()->get('loggedin') !== TRUE) {
-               if (!session()->has('id') && !session()->has('name') && !session()->has('email')) {
-                    return to('login');
-               }
+               return to('login');
           }
      }
 }

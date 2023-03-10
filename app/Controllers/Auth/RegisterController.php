@@ -13,7 +13,7 @@ class RegisterController
      
      public function index()
      {
-          ifAuth();
+          if_authenticated();
           return view('auth.register');
      }
 

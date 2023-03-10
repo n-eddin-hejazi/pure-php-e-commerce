@@ -11,7 +11,7 @@ class ResetPasswordController
 
     public function index()
     {
-        ifAuth();
+        if_authenticated();
         return view('auth.reset-password');
     }
 

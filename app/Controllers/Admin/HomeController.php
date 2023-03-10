@@ -5,7 +5,7 @@ class HomeController
 {
      public function index()
      {
-          ifNotAuth();
+          if_not_authenticated();
           return view('admin.home');
      }
      

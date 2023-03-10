@@ -11,7 +11,7 @@ class LoginController
 
      public function index()
      {
-          ifAuth();
+          if_authenticated();
           $this->autoLoginWithRememberMe();
           return view('auth.login');
      }

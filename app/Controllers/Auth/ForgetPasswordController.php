@@ -11,7 +11,7 @@ class ForgetPasswordController
 
     public function index()
     {
-        ifAuth();
+        if_authenticated();
         return view('auth.forget-password');
     }
 
