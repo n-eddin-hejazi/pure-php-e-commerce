@@ -110,6 +110,10 @@ class RegisterController
                $username_errors[] = "The username field is required.";
           }
 
+          if(str_contains($this->username, " ")){
+               $username_errors[] = "The username field cannot contain white space";
+          }
+
           // username validation
           if(strlen($this->username) < 3){
                $username_errors[] = "The length of username field shloud be grater than or equal to 3 characters.";
