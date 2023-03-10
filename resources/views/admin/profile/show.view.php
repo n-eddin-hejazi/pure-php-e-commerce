@@ -72,6 +72,50 @@ include view_path() . 'admin/layouts/header.view.php'; ?>
         </div>
     </div>
 
+    <div class="w-full bg-white border border-1 border-gray-300">
+        <div class="px-4 py-5 sm:p-6">
+            <div class="mb-4">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Edit User Password</h3>
+            </div>
+            <form action="<?= admin_url() ?>/profile/edit/password" method="POST" class="mx-auto flex flex-col justify-between gap-3">
+                <div>
+                    <input id="old_password" name="old_password" type="password" autocomplete="old_password" class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Old Password">
+                    <?php if (session()->hasFlash('old_password_errors')): ?>
+                            <p class="text-xs text-red-500">
+                                <?= session()->getFlash('old_password_errors')[0]; ?>
+                            </p>
+                    <?php endif; ?>
+                </div>
+
+                <div>
+                    <input id="new_password" name="new_password" type="password" autocomplete="new_password" class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="New Password">
+                    <?php if (session()->hasFlash('new_password_errors')): ?>
+                            <p class="text-xs text-red-500">
+                                <?= session()->getFlash('new_password_errors')[0]; ?>
+                            </p>
+                    <?php endif; ?>
+                </div>
+
+                <div>
+                    <input id="new_password_confirmation" name="new_password_confirmation" type="password" autocomplete="new_password_confirmation" class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="New Password Confirmation">
+                    <?php if (session()->hasFlash('new_password_confirmation_errors')): ?>
+                            <p class="text-xs text-red-500">
+                                <?= session()->getFlash('new_password_confirmation_errors')[0]; ?>
+                            </p>
+                    <?php endif; ?>
+                </div>
+       
+        
+                <div>
+                    <button type="submit" class="uppercase tracking-widest group w-full py-2 px-4 border border-transparent text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Update Password
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
 
 </div>
 

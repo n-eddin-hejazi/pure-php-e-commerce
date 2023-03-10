@@ -8,3 +8,4 @@ use App\Controllers\Admin\ProfileController;
 
     Route::get('admin/profile', [ProfileController::class, 'show']);
     Route::post('admin/profile/edit', [ProfileController::class, 'edit']);
+    Route::post('admin/profile/edit/password', [ProfileController::class, 'editPassword']);

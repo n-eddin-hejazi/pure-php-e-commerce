@@ -17,8 +17,7 @@ class ProfileController
     }
 
     public function edit()
-    {
-        
+    { 
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
             if(isset($_POST['name'], $_POST['username'])){
                 
@@ -27,6 +26,90 @@ class ProfileController
 
             }
         }
+    }
+
+    public function editPassword()
+    {
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            if(isset($_POST['old_password'], $_POST['new_password'], $_POST['new_password_confirmation'])){
+                
+                $this->editPasswordValidation();
+                $this->updatePassword();
+
+            }
+        }
+    }
+    private function editPasswordValidation()
+    {
+        $old_password_errors = $this->oldPasswordValidation();
+        if(!empty($old_password_errors)){
+            session()->setFlash('old_password_errors', $old_password_errors);
+        }
+
+        $new_password_errors = $this->newPasswordValidation();
+        if(!empty($new_password_errors)){
+            session()->setFlash('new_password_errors', $new_password_errors);
+        }
+
+        if(!empty($old_password_errors) || !empty($new_password_errors)){
+            return back();
+        }
+        
+    }
+
+    private function oldPasswordValidation()
+    {
+        $old_password_errors = [];
+        // password validation
+        if(!password_verify($_POST['old_password'], QueryBuilder::get('users', 'id', '=', auth()->id)->password)){
+            $old_password_errors[] = "Old password incorrect.";
+        }
+        
+        return $old_password_errors;        
+    }
+
+    private function newPasswordValidation()
+    {
+        $new_password_errors = [];
+
+        if(password_verify($_POST['new_password'], QueryBuilder::get('users', 'id', '=', auth()->id)->password)){
+            $new_password_errors[] = "New password cannot be equal to old password.";
+        }
+
+        // password validation
+        if(empty($_POST['new_password'])){
+            $new_password_errors[] = "The password field is required.";
+        }
+
+        // password validation
+        if(strlen($_POST['new_password']) < 8){
+            $new_password_errors[] = "The password field should be grater than or equal to 8 characters.";
+        }
+
+        // password validation
+        if(strlen($_POST['new_password']) > 32){
+            $new_password_errors[] = "The password field should be less than or equal to 32 characters.";
+        }
+
+        // password validation
+        if($_POST['new_password_confirmation'] !== $_POST['new_password']){
+            $new_password_errors[] = "Password confirmation doesn't match.";
+        }
+
+        return $new_password_errors;
+        
+    }
+
+    public function updatePassword()
+    {
+        $data = [
+            'password' => password_hash($_POST['new_password'], PASSWORD_DEFAULT),
+            'updated_at' => Carbon::now()
+        ];
+        QueryBuilder::update('users', $data, 'id', '=', auth()->id);
+        session()->setFlash('success', "Password was updated successfully.");
+        return back();
+
     }
 
     private function validation()
