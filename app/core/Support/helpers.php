@@ -112,6 +112,28 @@ if (!function_exists('if_not_authenticated')) {
      }
 }
 
+if (!function_exists('auth')) {
+     function auth()
+     {
+          if (session()->has('loggedin') && session()->get('loggedin') === TRUE) {
+               if (session()->has('id') && session()->has('name') && session()->has('username') && session()->has('email')) {
+                    $auth = [
+                         'id' => session()->get('id'),
+                         'name' => session()->get('name'),
+                         'username' => session()->get('username'),
+                         'email' => session()->get('email'),
+                    ];
+
+                    return (object)$auth;
+               }
+               return null;
+          }
+          return null;
+     }
+}
+
+
+
 if (!function_exists('getTitle')) {
      function getTitle()
      {
