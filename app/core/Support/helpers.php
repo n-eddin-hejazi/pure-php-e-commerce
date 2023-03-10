@@ -1,6 +1,7 @@
 <?php
 use App\Core\View\View;
 use App\Core\Support\Session;
+use App\Core\Support\QueryBuilder;
 
 if(!function_exists('env'))
 {
@@ -124,11 +125,17 @@ if (!function_exists('auth')) {
      {
           if (session()->has('loggedin') && session()->get('loggedin') === TRUE) {
                if (session()->has('id') && session()->has('name') && session()->has('username') && session()->has('email')) {
+
+                    $user = QueryBuilder::get('users', 'id', '=', session()->get('id'));
+
                     $auth = [
                          'id' => session()->get('id'),
-                         'name' => session()->get('name'),
-                         'username' => session()->get('username'),
-                         'email' => session()->get('email'),
+                         'name' => $user->name,
+                         'username' => $user->username,
+                         'email' => $user->email,
+                         'last_login' => $user->last_login,
+                         'created_at' => $user->created_at,
+                         'updated_at' => $user->updated_at,
                     ];
 
                     return (object)$auth;
