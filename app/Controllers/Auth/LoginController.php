@@ -126,6 +126,7 @@ class LoginController
                $_SESSION['loggedin'] = true;
                $_SESSION['id'] = $user->id;
                $_SESSION['name'] = $user->name;
+               $_SESSION['username'] = $user->username;
                $_SESSION['email'] = $user->email;
           }
      }
