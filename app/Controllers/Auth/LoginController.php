@@ -125,9 +125,6 @@ class LoginController
           if($user && password_verify($this->password, $user->password)){
                $_SESSION['loggedin'] = true;
                $_SESSION['id'] = $user->id;
-               $_SESSION['name'] = $user->name;
-               $_SESSION['username'] = $user->username;
-               $_SESSION['email'] = $user->email;
           }
      }
 
@@ -144,8 +141,6 @@ class LoginController
                if($user->remember_me === $_COOKIE['remember_me']){
                     $_SESSION['loggedin'] = true;
                     $_SESSION['id'] = $user->id;
-                    $_SESSION['name'] = $user->name;
-                    $_SESSION['email'] = $user->email;
                     return to('admin');
                }
           }    

@@ -6,10 +6,9 @@ class LogoutController
     public function index()
     {
         session_start();
+        $_SESSION['loggedin'] = FALSE;
         unset($_SESSION['loggedin']);
         unset($_SESSION['id']);
-        unset($_SESSION['name']);
-        unset($_SESSION['email']);
         session_unset();
         session_destroy();
         if(isset($_COOKIE['remember_me'])){

@@ -103,10 +103,9 @@ if (!function_exists('old')) {
 if (!function_exists('if_authenticated')) {
      function if_authenticated()
      {
-          if (session()->has('loggedin') && session()->get('loggedin') === TRUE) {
-               if (session()->has('id') && session()->has('name') && session()->has('username') && session()->has('email')) {
-                    return to('admin');
-               }
+          if (session()->has('loggedin') && session()->get('loggedin') === TRUE && session()->has('id')) {
+               return to('admin');
+               
           }
      }
 }
@@ -123,11 +122,8 @@ if (!function_exists('if_not_authenticated')) {
 if (!function_exists('auth')) {
      function auth()
      {
-          if (session()->has('loggedin') && session()->get('loggedin') === TRUE) {
-               if (session()->has('id') && session()->has('name') && session()->has('username') && session()->has('email')) {
-
+          if (session()->has('loggedin') && session()->get('loggedin') === TRUE && session()->has('id')) {
                     $user = QueryBuilder::get('users', 'id', '=', session()->get('id'));
-
                     $auth = [
                          'id' => session()->get('id'),
                          'name' => $user->name,
